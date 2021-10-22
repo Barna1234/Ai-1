@@ -11,7 +11,7 @@ def int_list(list):
     return new_list
 
 def dist(point_1,point_2):
-        return math.sqrt((point_1[0]-point_2[0])**2 + (point_1[1]-point_2[1])**2)    
+        return round(math.sqrt((point_1[0]-point_2[0])**2 + (point_1[1]-point_2[1])**2),2)    
 
 #state az hogy melyik szamu csucson vagyunk
 #a koordinatakat a csucs szamaval tudjuk indexelni ekkor megkapjuk a koordinatakat
@@ -19,8 +19,7 @@ def dist(point_1,point_2):
 #elekbol tudjuk a parsagot kinyerni
 
 class Node:
-    def __init__(self,parent,state,cost_to_node,cost_to_end):
-        self.parent=parent
+    def __init__(self,state,cost_to_node,cost_to_end):
         #state a csucs azonositoja a grafban
         self.state = state
         #cost to node hogy mennyi az eddigi uton ide eljutni ez a parent node koltsege plusz a parent node es a node kozotti dzakaszhossz
@@ -83,7 +82,7 @@ class Palya:
             frontier = Frontier()
 
             #koordinatakat kell megtalalni nem a nodeokat irni erre egy fuggvenyt
-            start_node = Node(parent=None,state=start_state,cost_to_node=0,cost_to_end=dist(self.csucsok[start_state],self.csucsok[end_state]))
+            start_node = Node(state=start_state,cost_to_node=0,cost_to_end=dist(self.csucsok[start_state],self.csucsok[end_state]))
             frontier.addNode(start_node)
 
             self.explored = set()
@@ -104,7 +103,7 @@ class Palya:
                     if neighbouring_state not in self.explored and not frontier.contains_state(neighbouring_state):
                         costtoend = dist(self.csucsok[end_state],self.csucsok[neighbouring_state])
                         costtonode = node.cost_to_node + dist(self.csucsok[node.state],self.csucsok[neighbouring_state])
-                        child_node = Node(node,neighbouring_state,cost_to_node=costtonode,cost_to_end=costtoend)
+                        child_node = Node(neighbouring_state,cost_to_node=costtonode,cost_to_end=costtoend)
                         frontier.addNode(child_node)
                         
 
